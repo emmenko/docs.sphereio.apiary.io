@@ -1,0 +1,382 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>SPHERE.IO HTTP API Documentation</title><link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootswatch/3.0.1/flatly/bootstrap.min.css"><link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.2/css/font-awesome.min.css"><link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,700|Inconsolata|Raleway:200"><style>/* Highlight.js Theme */
+pre code{display:block;padding:.5em;color:#333;background:#f8f8ff}pre .comment,pre .diff .header,pre .javadoc,pre .template_comment{color:#998;font-style:italic}pre .css .rule .keyword,pre .javascript .title,pre .keyword,pre .nginx .title,pre .request,pre .status,pre .subst,pre .winutils{color:#333;font-weight:700}pre .hexcolor,pre .number,pre .ruby .constant{color:#099}pre .phpdoc,pre .string,pre .tag .value,pre .tex .formula{color:#d14}pre .coffeescript .params,pre .id,pre .scss .preprocessor,pre .title{color:#900;font-weight:700}pre .clojure .title,pre .javascript .title,pre .lisp .title,pre .subst{font-weight:400}pre .class .title,pre .haskell .type,pre .tex .command,pre .vhdl .literal{color:#458;font-weight:700}pre .django .tag .keyword,pre .rules .property,pre .tag,pre .tag .title{color:navy;font-weight:400}pre .attribute,pre .lisp .body,pre .variable{color:teal}pre .regexp{color:#009926}pre .class{color:#458;font-weight:700}pre .lisp .keyword,pre .prompt,pre .ruby .symbol .string,pre .symbol,pre .tex .special{color:#990073}pre .built_in,pre .clojure .built_in,pre .lisp .title{color:#0086b3}pre .cdata,pre .doctype,pre .pi,pre .preprocessor,pre .shebang{color:#999;font-weight:700}pre .deletion{background:#fdd}pre .addition{background:#dfd}pre .diff .change{background:#0086b3}pre .chunk{color:#aaa}pre {background:#f8f8ff}</style><style type="text/css">body,
+h4,
+h5 {
+  font-family: 'Roboto' sans-serif !important;
+}
+h1,
+h2,
+h3,
+.aglio {
+  font-family: 'Raleway' sans-serif !important;
+}
+h1 a,
+h2 a,
+h3 a,
+h4 a,
+h5 a {
+  display: none;
+}
+h1:hover a,
+h2:hover a,
+h3:hover a,
+h4:hover a,
+h5:hover a {
+  display: inline;
+}
+code {
+  color: #444;
+  background-color: #ddd;
+  font-family: 'Inconsolata' monospace !important;
+}
+a[data-target] {
+  cursor: pointer;
+}
+h4 {
+  font-size: 100%;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.back-to-top {
+  position: fixed;
+  z-index: 1;
+  bottom: 0px;
+  right: 24px;
+  padding: 4px 8px;
+  background-color: #eee;
+  text-decoration: none !important;
+  border-top: 1px solid rgba(0,0,0,0.1);
+  border-left: 1px solid rgba(0,0,0,0.1);
+  border-right: 1px solid rgba(0,0,0,0.1);
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+.panel {
+  overflow: hidden;
+}
+.panel-heading code {
+  color: #fff;
+  background-color: transparent;
+}
+.panel-heading h3 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+a.list-group-item {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+a.list-group-item.heading {
+  background-color: #ecf0f1;
+}
+.list-group-item.collapse {
+  display: none;
+}
+</style></head><body><a href="#top" class="text-muted back-to-top"><i class="fa fa-toggle-up"></i>&nbsp;Back to top</a><div class="container"><div class="row"><nav id="nav" style="margin-top: 38px;" class="col-md-3 collapse hidden-sm hidden-xs"><div class="list-group"><a href="#authorization" class="list-group-item heading">Authorization</a><a href="#authorization-client-credentials-flow" class="list-group-item"><i class="fa fa-plus-square"></i>&nbsp;Client Credentials Flow</a></div><div class="list-group"><a href="#api-types" class="list-group-item heading">API Types</a></div><div class="list-group"><a href="#category-resources" class="list-group-item heading">Category Resources</a><a href="#category-resources-category" class="list-group-item"><i class="fa fa-bars"></i>&nbsp;Category</a><a href="#category-resources-category-get" style="padding-left: 32px" class="list-group-item"><i class="fa fa-arrow-circle-down"></i>&nbsp;Get Category by ID</a><a href="#category-resources-category-post" style="padding-left: 32px" class="list-group-item"><i class="fa fa-plus-square"></i>&nbsp;Update a Category</a><a href="#category-resources-category-delete" style="padding-left: 32px" class="list-group-item"><i class="fa fa-warning"></i>&nbsp;Delete a Category</a><a href="#category-resources-categories" class="list-group-item"><i class="fa fa-arrow-circle-down"></i>&nbsp;Categories</a></div><p style="text-align: center"><a href="https://api-v0.sphere.io/">https://api-v0.sphere.io/</a></p></nav><div class="col-md-9"><div><header><div class="page-header"><h1 id="top">SPHERE.IO HTTP API Documentation</h1></div></header><div class="description"><p>The HTTP API of SPHERE.IO provides an interface for programmatic access to the data stored on SPHERE.IO and the associated functionality. While it can be used directly, for experimentation or custom integration solutions, we recommend taking a look at our available client libraries and SDKs, which usually provide a more comfortable development experience.</p>
+<p>This document gives an overview of the characteristics and common features of the API.</p>
+<h2 id="hosts">Hosts</h2>
+<p>The <strong>HTTP API</strong> for projects on SPHERE.IO is currently provided at the following URL that is assumed to be prepended to all endpoints in the specific APIs:</p>
+<p><code>https://api-v0.sphere.io/</code></p>
+<p>The <strong>OAuth2 APIs</strong> are currently provided at the following URL:</p>
+<p><code>https://auth-v0.sphere.io/</code></p>
+<h2 id="json">JSON</h2>
+<p>The majority of the services consume and produce standard <code>application/json</code> payloads for the time being. Consumers of JSON responses should ignore any unrecognized fields encountered in JSON objects of responses, or deal with them in a way that does not cause the client application to crash. The services will assume clients behave properly in that manner and thus consider the addition of new fields to be backwards-compatible with respect to existing clients. Clients should also not rely on the presence of undocumented fields. Fields that are returned by a service but are not documented can be renamed or disappear at any time without prior notice.</p>
+<h2 id="optimistic-concurrency-control">Optimistic Concurrency Control</h2>
+<p>Many resources exposed on the API employ optimistic concurrency control to prevent lost updates when making changes to existing data concurrently. Such resources carry around a <code>version</code>. When sending (partial) updates to such resources, the expected version of a resource needs to be a part in the representation sent with the request. Usually the HTTP answer contains the new version of the resource which can increase by 1 or more due to internal calculations.</p>
+<p>Note that the current API deliberately does not use <code>ETag</code> + <code>If-Match</code> headers for the purpose of optimistic concurrency control. Future versions of the API may support <code>ETag</code>s together with <code>If-None-Match</code> headers for the purpose of reducing network traffic.</p>
+<h2 id="query-features">Query Features</h2>
+<p>Common query features include filtering, sorting, paging and reference expansion. Certain aspects of these features are standardized across all parts of the API as described in the following sections.</p>
+</div></div><div><div class="panel panel-default"><div class="panel-heading"><h3 id="authorization">Authorization&nbsp;<a href="#authorization"><i class="fa fa-link"></i></a></h3></div><div class="panel-body"><h4 id="oauth2">OAuth2</h4>
+<p>API authorization uses <a href="http://tools.ietf.org/html/rfc6750">OAuth2 bearer tokens</a>.</p>
+<p>Clients must obtain an <code>access_token</code> from the <em>auth service</em> using one of the authorization flows described below, before they are able to make authorized requests to other SPHERE.IO services.
+On successful completion of an authorization flow, a client will be given an <code>access_token</code>, which they need to include in requests to authorized service endpoints via the <strong>HTTP Authorization header</strong> like this:</p>
+<p><code>Authorization: Bearer {access_token}</code></p>
+<p>The <code>access_token</code> has a lifetime (in seconds) determined by the parameter <code>expires_in</code>.</p>
+<h4 id="authorization-flows">Authorization Flows</h4>
+<p>Here are listed all currently supported authorization flows:</p>
+<h4 id="authorization-client-credentials-flow">Client Credentials Flow&nbsp;<a href="#authorization-client-credentials-flow"><i class="fa fa-link"></i></a></h4><p>To obtain an access token through the client credentials flow, simply issue the following request to the auth service, providing your <code>client_id</code> and <code>client_secret</code> via <a href="http://en.wikipedia.org/wiki/Basic_access_authentication">HTTP Basic Authentication</a>,
+where the username is the <code>client_id</code> and the password is the <code>client_secret</code>.</p>
+<h4 id="scopes">Scopes</h4>
+<p>All access tokens are constrained to a certain scope. The currently supported scopes are described here.</p>
+<p><strong>Project Scopes</strong></p>
+<p>The project scopes provide API access in the context of a specific project.
+Your client can only acquire those scopes which have been previously granted by a sufficiently authorized user through the SPHERE.IO <a href="https://admin.sphere.io/">Merchant Center</a>.</p>
+<ul>
+<li><code>manage_project:{projectKey}</code>
+Grants full access to the APIs for the specified project.</li>
+<li><code>manage_products:{projectKey}</code>
+Grants access to the APIs for creating, modifying and viewing anything related to products in a project. Implies view_products for the same project.</li>
+<li><code>view_products:{projectKey}</code>
+Grants access to the APIs for viewing anything related to products in a project.</li>
+<li><code>manage_orders:{projectKey}</code>
+Grants access to the APIs for creating, modifying and viewing anything related to orders in a project. Implies view_orders for the same project.</li>
+<li><code>view_orders:{projectKey}</code>
+Grants access to the APIs for viewing anything related to orders in a project.</li>
+<li><code>manage_customers:{projectKey}</code>
+Grants access to the APIs for creating, modifying and viewing anything related to customers in a project. Implies view_customers for the same project.</li>
+<li><code>view_customers:{projectKey}</code>
+Grants access to the APIs for viewing anything related to customers in a project.</li>
+</ul>
+<section id="authorization-client-credentials-flow-post" class="panel panel-success"><div class="panel-heading"><span style="text-transform: lowercase" class="pull-right">Obtain an access token</span><a href="#authorization-client-credentials-flow-post" class="btn btn-xs btn-success">POST</a>&nbsp;<code>/oauth/token{?grant_type,scope}</code></div><ul class="list-group"><li class="list-group-item bg-default"><strong>Parameters</strong></li><li class="list-group-item"><dl class="dl-horizontal"><dt>grant_type</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>client_credentials</span></span><p>The type defined for this authorization flow <code>client_credentials</code>.</p>
+</dd><dt>scope</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>scope=manage_project:{projectKey}</span></span><p>The scope to grant access to API resources.</p>
+</dd></dl></li></ul><ul class="list-group"><li class="list-group-item"><strong>Request</strong><a data-toggle="collapse" data-target="#405591" class="pull-right">Toggle</a></li><li id="405591" class="list-group-item collapse"><h5>Headers</h5><pre><code><span class="attribute">Authorization</span>: <span class="string">Basic &lt;BASE64-ENCODED-STRING&gt;</span><br></code></pre></li><li class="list-group-item"><strong>Response&nbsp;&nbsp;<code>200</code></strong><a data-toggle="collapse" data-target="#693111" class="pull-right">Toggle</a></li><li id="693111" class="list-group-item collapse"><h5>Headers</h5><pre><code><span class="attribute">Content-Type</span>: <span class="string">application/json</span><br></code></pre><h5>Body</h5><pre><code>{
+    <span class="string">"access_token"</span>: <span class="string">"vkFuQ6oTwj8_Ye4eiRSsqMeqLYNeQRJi"</span>,
+    <span class="string">"token_type"</span>: <span class="string">"Bearer"</span>,
+    <span class="string">"expires_in"</span>: <span class="number">172800</span>, <span class="comment">// 2 days</span>
+    <span class="string">"scope"</span>: <span class="string">"manage_project:{projectKey}"</span>
+}
+</code></pre></li></ul></section></div></div></div><div><div class="panel panel-default"><div class="panel-heading"><h3 id="api-types">API Types&nbsp;<a href="#api-types"><i class="fa fa-link"></i></a></h3></div><div class="panel-body"><h2 id="-a-name-localized-string-a-localized-string"><a name="localized-string"></a> Localized String</h2>
+<p>A <code>LocalizedString</code> is a JSON object where the keys are ISO language tags, and the values the corresponding strings used for that language.</p>
+<pre><code class="lang-json">{
+    "<span class="attribute">de</span>": <span class="value"><span class="string">"Hundefutter"</span></span>,
+    "<span class="attribute">en</span>": <span class="value"><span class="string">"dog food"</span>
+</span>}</code></pre>
+<h2 id="-a-name-reference-a-reference"><a name="reference"></a> Reference</h2>
+<p>A <code>Reference</code> is a JSON object representing a (loose) reference to another resource on SPHERE.IO platform. It consists of two fields:</p>
+<ul>
+<li><code>typeId</code> ( <strong>String</strong> )
+The typeId designates the type of the referenced resource (see the list of reference types below).</li>
+<li><code>id</code> ( <strong>String</strong> )
+The unique ID of the referenced resource.</li>
+</ul>
+<pre><code class="lang-json">{
+    "<span class="attribute">mostWanted</span>": <span class="value">{
+        "<span class="attribute">typeId</span>": <span class="value"><span class="string">"product"</span></span>,
+        "<span class="attribute">id</span>": <span class="value"><span class="string">"d1229e6f-2b79-441e-b419-180311e52754"</span>
+    </span>}
+</span>}</code></pre>
+<p><strong>Reference Types</strong></p>
+<ul>
+<li><code>product</code> - Identifies a reference to a <a href="#product">Product</a>.</li>
+<li><code>product-type</code> - Identifies a reference to a <a href="#product-type">ProductType</a>.</li>
+<li><code>category</code> - Identifies a reference to a <a href="#category">Category</a>.</li>
+<li><code>tax-category</code> - Identifies a reference to a <a href="#tax-category">TaxCategory</a>.</li>
+<li><code>customer</code> - Identifies a reference to a <a href="#customer">Customer</a>.</li>
+<li><code>customer-group</code> - Identifies a reference to a <a href="#customer-group">CustomerGroup</a>.</li>
+<li><code>cart</code> - Identifies a reference to a <a href="#cart">Cart</a>.</li>
+<li><code>order</code> - Identifies a reference to an <a href="#order">Order</a>.</li>
+<li><code>user</code> - Identifies a reference to a user.</li>
+</ul>
+<h2 id="-a-name-money-a-money"><a name="money"></a> Money</h2>
+<p>A <code>Money</code> is a JSON object combining a currency and an amount (in cents). It consists of two fields:</p>
+<ul>
+<li><code>currencyCode</code> ( <strong>String</strong> )
+The ISO 4217 currency code.</li>
+<li><code>centAmount</code> ( <strong>Number</strong> )
+The amount in cents (the smallest indivisible unit of the currency).</li>
+</ul>
+<pre><code class="lang-json">{
+    "<span class="attribute">monthlyFee</span>": <span class="value">{
+        "<span class="attribute">currencyCode</span>": <span class="value"><span class="string">"EUR"</span></span>,
+        "<span class="attribute">centAmount</span>":<span class="value"><span class="number">4200</span>
+    </span>}
+</span>}</code></pre>
+<h2 id="-a-name-date-a-date"><a name="date"></a> Date</h2>
+<p>A <code>Date</code> is a JSON string representation of a date without timezone in ISO 8601 format (YYYY-MM-DD), for example:</p>
+<pre><code class="lang-json">{
+    "<span class="attribute">someDate</span>": <span class="value"><span class="string">"2001-09-11"</span>
+</span>}</code></pre>
+<h2 id="-a-name-time-a-time"><a name="time"></a> Time</h2>
+<p>A <code>Time</code> is a JSON string representation of a time without timezone in ISO 8601 format (hh:mm:ss.sss), for example:</p>
+<pre><code class="lang-json">{
+    "<span class="attribute">someTime</span>": <span class="value"><span class="string">"14:00:00.000"</span>
+</span>}</code></pre>
+<h2 id="-a-name-date-time-a-datetime"><a name="date-time"></a> DateTime</h2>
+<p>A <code>DateTime</code> is a JSON string representation of UTC date &amp; time in ISO 8601 format (YYYY-MM-DDThh:mm:ss.sssZ), for example:</p>
+<pre><code class="lang-json">{
+    "<span class="attribute">someDateTime</span>": <span class="value"><span class="string">"2001-09-11T14:00:00.000Z"</span>
+</span>}</code></pre>
+<h2 id="-a-name-address-a-address"><a name="address"></a> Address</h2>
+<p>An <code>Address</code> is a JSON string representation of a postal address. It consists of the following fields:</p>
+<ul>
+<li><code>id</code> ( <strong>String</strong>, <em>optional</em> )</li>
+<li><code>title</code> ( <strong>String</strong>, <em>optional</em> )</li>
+<li><code>salutation</code> ( <strong>String</strong>, <em>optional</em> )</li>
+<li><code>firstName</code> ( <strong>String</strong>, <em>optional</em> )</li>
+<li><code>lastName</code> ( <strong>String</strong>, <em>optional</em> )</li>
+<li><code>streetName</code> ( <strong>String</strong>, <em>optional</em> )</li>
+<li><code>streetNumber</code> ( <strong>String</strong>, <em>optional</em> )</li>
+<li><code>additionalStreetInfo</code> ( <strong>String</strong>, <em>optional</em> )</li>
+<li><code>postalCode</code> ( <strong>String</strong>, <em>optional</em> )</li>
+<li><code>city</code> ( <strong>String</strong>, <em>optional</em> )</li>
+<li><code>region</code> ( <strong>String</strong>, <em>optional</em> )</li>
+<li><code>state</code> ( <strong>String</strong>, <em>optional</em> )</li>
+<li><code>country</code> ( <strong>String</strong> )
+A two-digit country code as per <a href="http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO 3166-1 alpha-2</a>.</li>
+<li><code>company</code> ( <strong>String</strong>, <em>optional</em> )</li>
+<li><code>department</code> ( <strong>String</strong>, <em>optional</em> )</li>
+<li><code>building</code> ( <strong>String</strong>, <em>optional</em> )</li>
+<li><code>apartment</code> ( <strong>String</strong>, <em>optional</em> )</li>
+<li><code>pOBox</code> ( <strong>String</strong>, <em>optional</em> )</li>
+<li><code>phone</code> ( <strong>String</strong>, <em>optional</em> )</li>
+<li><code>mobile</code> ( <strong>String</strong>, <em>optional</em> )</li>
+<li><code>email</code> ( <strong>String</strong>, <em>optional</em> )</li>
+</ul>
+</div></div></div><div><div class="panel panel-default"><div class="panel-heading"><h3 id="category-resources">Category Resources&nbsp;<a href="#category-resources"><i class="fa fa-link"></i></a></h3></div><div class="panel-body"><p>Categories are used to organize products in a hierarchical structure.</p>
+<h4 id="category-resources-category">Category&nbsp;<a href="#category-resources-category"><i class="fa fa-link"></i></a></h4><h4 id="-a-name-category-a-representation"><a name="category"></a> Representation</h4>
+<ul>
+<li><code>id</code> ( <strong>String</strong>, <em>required</em> )
+The unique ID of the category.</li>
+<li><code>version</code> ( <strong>Number</strong>, <em>required</em> )
+The current version of the category.</li>
+<li><code>name</code> ( <a href="#localized-string"><strong>LocalizedString</strong></a>, <em>required</em> )</li>
+<li><code>slug</code> ( <a href="#localized-string"><strong>LocalizedString</strong></a>, <em>required</em> ) - must match the pattern <code>[-a-zA-Z0-9_]{2,64}</code></li>
+<li><code>description</code> ( <a href="#localized-string"><strong>LocalizedString</strong></a>, <em>optional</em> )</li>
+<li><code>ancestors</code> ( <strong>Array</strong> of <a href="#reference">Reference</a> to a <a href="#category">Category</a>, <em>optional</em> )</li>
+<li><code>parent</code> ( <a href="#reference">Reference</a> to a <a href="#category">Category</a>, <em>optional</em> )</li>
+<li><code>orderHint</code> ( <strong>String</strong>, <em>optional</em> )
+An attribute as base for a custom category order in one level.</li>
+</ul>
+<h4 id="single-resource-query-response">Single Resource Query Response</h4>
+<p>Query responses for single resources only return a single, top-level JSON object.</p>
+<section id="category-resources-category-get" class="panel panel-info"><div class="panel-heading"><span style="text-transform: lowercase" class="pull-right">Get Category by ID</span><a href="#category-resources-category-get" class="btn btn-xs btn-info">GET</a>&nbsp;<code>/{projectKey}/categories/{id}{?version}</code></div><div class="panel-body"><h4 id="info">Info</h4>
+<p>OAuth2 Scopes: <code>view_products:{projectKey}</code></p>
+</div><ul class="list-group"><li class="list-group-item bg-default"><strong>Parameters</strong></li><li class="list-group-item"><dl class="dl-horizontal"><dt>projectKey</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>my-project</span></span><p>The <code>key</code> of your project.</p>
+</dd><dt>id</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>123456</span></span><p>The unique <code>id</code> of the category.</p>
+</dd></dl></li></ul><ul class="list-group"><li class="list-group-item"><strong>Request</strong><a data-toggle="collapse" data-target="#698700" class="pull-right">Toggle</a></li><li id="698700" class="list-group-item collapse"><h5>Headers</h5><pre><code><span class="attribute">Authorization</span>: <span class="string">Bearer &lt;ACCESS_TOKEN&gt;</span><br></code></pre></li><li class="list-group-item"><strong>Response&nbsp;&nbsp;<code>200</code></strong><a data-toggle="collapse" data-target="#782762" class="pull-right">Toggle</a></li><li id="782762" class="list-group-item collapse"><h5>Headers</h5><pre><code><span class="attribute">Content-Type</span>: <span class="string">application/json</span><br></code></pre><h5>Body</h5><pre><code>{
+    "<span class="attribute">id</span>": <span class="value"><span class="string">"some_123_id"</span></span>,
+    "<span class="attribute">version</span>": <span class="value"><span class="number">1</span></span>,
+    "<span class="attribute">name</span>": <span class="value">{
+        "<span class="attribute">en</span>": <span class="value"><span class="string">"myCategory"</span>
+    </span>}</span>,
+    "<span class="attribute">slug</span>": <span class="value">{
+        "<span class="attribute">en</span>": <span class="value"><span class="string">"my-cat-&lt;random&gt;"</span>
+    </span>}</span>,
+    "<span class="attribute">orderHint</span>": <span class="value"><span class="string">"0.275"</span></span>,
+    "<span class="attribute">ancestors</span>": <span class="value">[]
+</span>}
+</code></pre></li></ul></section><section id="category-resources-category-post" class="panel panel-success"><div class="panel-heading"><span style="text-transform: lowercase" class="pull-right">Update a Category</span><a href="#category-resources-category-post" class="btn btn-xs btn-success">POST</a>&nbsp;<code>/{projectKey}/categories/{id}{?version}</code></div><div class="panel-body"><h4 id="info">Info</h4>
+<p>OAuth2 Scopes: <code>manage_products:{projectKey}</code></p>
+<p>Fields:</p>
+<ul>
+<li><code>version</code> ( <strong>Number</strong>, <em>required</em> )
+The expected version of the category on which the changes should be applied. If the expected version does not match the actual version, a 409 Conflict will be returned.</li>
+<li><code>actions</code> ( <strong>Array</strong> of <a href="#update-actions">UpdateAction</a>, <em>required</em> )
+The list of update actions to be performed on the category.</li>
+</ul>
+<h4 id="-a-name-update-actions-a-update-actions"><a name="update-actions"></a> Update actions</h4>
+<ul>
+<li><p><strong>Change Name</strong></p>
+<ul>
+<li><code>action</code> ( <strong>String</strong>, <code>changeName</code> )</li>
+<li><code>name</code> ( <a href="#localized-string"><strong>LocalizedString</strong></a>, <em>required</em> )</li>
+</ul>
+</li>
+<li><p><strong>Change Slug</strong></p>
+<ul>
+<li><code>action</code> ( <strong>String</strong>, <code>changeSlug</code> )</li>
+<li><code>slug</code> ( <a href="#localized-string"><strong>LocalizedString</strong></a>, <em>required</em> )</li>
+</ul>
+</li>
+<li><p><strong>Set Description</strong></p>
+<ul>
+<li><code>action</code> ( <strong>String</strong>, <code>setDescription</code> )</li>
+<li><code>description</code> ( <a href="#localized-string"><strong>LocalizedString</strong></a>, <em>required</em> )</li>
+</ul>
+</li>
+<li><p><strong>Change Parent</strong></p>
+<ul>
+<li><code>action</code> ( <strong>String</strong>, <code>changeParent</code> )</li>
+<li><code>parent</code> ( <a href="#reference"><strong>Reference</strong></a> to a <a href="#category">Category</a>, <em>required</em> )</li>
+</ul>
+</li>
+<li><p><strong>Change Order Hint</strong></p>
+<ul>
+<li><code>action</code> ( <strong>String</strong>, <code>changeOrderHint</code> )</li>
+<li><code>parent</code> ( <strong>String</strong>, <em>required</em> )</li>
+</ul>
+</li>
+</ul>
+</div><ul class="list-group"><li class="list-group-item bg-default"><strong>Parameters</strong></li><li class="list-group-item"><dl class="dl-horizontal"><dt>projectKey</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>my-project</span></span><p>The <code>key</code> of your project.</p>
+</dd><dt>id</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>123456</span></span><p>The unique <code>id</code> of the category.</p>
+</dd></dl></li></ul><ul class="list-group"><li class="list-group-item"><strong>Request</strong><a data-toggle="collapse" data-target="#550825" class="pull-right">Toggle</a></li><li id="550825" class="list-group-item collapse"><h5>Headers</h5><pre><code><span class="attribute">Content-Type</span>: <span class="string">application/json</span><br><span class="attribute">Authorization</span>: <span class="string">Bearer &lt;ACCESS_TOKEN&gt;</span><br></code></pre><h5>Body</h5><pre><code>{
+    "<span class="attribute">version</span>": <span class="value"><span class="number">1</span></span>,
+    "<span class="attribute">actions</span>": <span class="value">[
+        {
+            "<span class="attribute">action</span>": <span class="value"><span class="string">"changeName"</span></span>,
+            "<span class="attribute">name</span>": <span class="value">{
+                "<span class="attribute">en</span>": <span class="value"><span class="string">"New Name"</span>
+            </span>}
+        </span>}
+    ]
+</span>}
+</code></pre></li><li class="list-group-item"><strong>Response&nbsp;&nbsp;<code>200</code></strong><a data-toggle="collapse" data-target="#4679" class="pull-right">Toggle</a></li><li id="4679" class="list-group-item collapse"><h5>Headers</h5><pre><code><span class="attribute">Content-Type</span>: <span class="string">application/json</span><br></code></pre><h5>Body</h5><pre><code>{
+    "<span class="attribute">version</span>": <span class="value"><span class="number">2</span></span>,
+    "<span class="attribute">name</span>": <span class="value">{
+        "<span class="attribute">en</span>": <span class="value"><span class="string">"New Name"</span>
+    </span>}</span>,
+    "<span class="attribute">slug</span>": <span class="value">{
+        "<span class="attribute">en</span>": <span class="value"><span class="string">"my-cat-&lt;random&gt;"</span>
+    </span>}</span>,
+    "<span class="attribute">orderHint</span>": <span class="value"><span class="string">"0.275"</span></span>,
+    "<span class="attribute">ancestors</span>": <span class="value">[]
+</span>}
+</code></pre></li></ul></section><section id="category-resources-category-delete" class="panel panel-danger"><div class="panel-heading"><span style="text-transform: lowercase" class="pull-right">Delete a Category</span><a href="#category-resources-category-delete" class="btn btn-xs btn-danger">DELETE</a>&nbsp;<code>/{projectKey}/categories/{id}{?version}</code></div><div class="panel-body"><h4 id="info">Info</h4>
+<p>OAuth2 Scopes: <code>manage_products:{projectKey}</code></p>
+</div><ul class="list-group"><li class="list-group-item bg-default"><strong>Parameters</strong></li><li class="list-group-item"><dl class="dl-horizontal"><dt>projectKey</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>my-project</span></span><p>The <code>key</code> of your project.</p>
+</dd><dt>id</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>123456</span></span><p>The unique <code>id</code> of the category.</p>
+</dd><dt>version</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>version=4</span></span><p>The <code>version</code> of the category you want to delete.</p>
+</dd></dl></li></ul><ul class="list-group"><li class="list-group-item"><strong>Request</strong><a data-toggle="collapse" data-target="#428142" class="pull-right">Toggle</a></li><li id="428142" class="list-group-item collapse"><h5>Headers</h5><pre><code><span class="attribute">Authorization</span>: <span class="string">Bearer &lt;ACCESS_TOKEN&gt;</span><br></code></pre></li><li class="list-group-item"><strong>Response&nbsp;&nbsp;<code>200</code></strong><a data-toggle="collapse" data-target="#84810" class="pull-right">Toggle</a></li><li id="84810" class="list-group-item collapse"><h5>Headers</h5><pre><code><span class="attribute">Content-Type</span>: <span class="string">application/json</span><br></code></pre><h5>Body</h5><pre><code>{
+    "<span class="attribute">version</span>": <span class="value"><span class="number">4</span></span>,
+    "<span class="attribute">name</span>": <span class="value">{
+        "<span class="attribute">en</span>": <span class="value"><span class="string">"New Name"</span>
+    </span>}</span>,
+    "<span class="attribute">slug</span>": <span class="value">{
+        "<span class="attribute">en</span>": <span class="value"><span class="string">"xyz-slug"</span>
+    </span>}</span>,
+    "<span class="attribute">orderHint</span>": <span class="value"><span class="string">"0.455"</span></span>,
+    "<span class="attribute">ancestors</span>": <span class="value">[]
+</span>}
+</code></pre></li></ul></section><h4 id="category-resources-categories">Categories&nbsp;<a href="#category-resources-categories"><i class="fa fa-link"></i></a></h4><h4 id="paged-query-response">Paged Query Response</h4>
+<p>For query responses of requests supporting paging via <code>limit</code> and <code>offset</code>, the following common top-level fields are returned:</p>
+<ul>
+<li><code>offset</code> ( <strong>Number</strong> )
+The offset supplied by the client or the server default.</li>
+<li><code>count</code> ( <strong>Number</strong> )
+The actual number of results returned.</li>
+<li><code>total</code> ( <strong>Number</strong> )
+The total number of results matching the query.</li>
+<li><code>results</code> ( <strong>Number</strong> )
+Array of <a href="#category">Category</a> results</li>
+</ul>
+<section id="category-resources-categories-get" class="panel panel-info"><div class="panel-heading"><span style="text-transform: lowercase" class="pull-right">Query Categories</span><a href="#category-resources-categories-get" class="btn btn-xs btn-info">GET</a>&nbsp;<code>/{projectKey}/categories{?where,sort,limit,offset}</code></div><div class="panel-body"><h4 id="info">Info</h4>
+<p>OAuth2 Scopes: <code>view_products:{projectKey}</code></p>
+</div><ul class="list-group"><li class="list-group-item bg-default"><strong>Parameters</strong></li><li class="list-group-item"><dl class="dl-horizontal"><dt>projectKey</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>my-project</span></span><p>The <code>key</code> of your project.</p>
+</dd><dt>where</dt><dd><code>predicate</code>&nbsp;<span>(optional)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>name%28en%3D%22myCategory%22%29</span></span><p>A <code>UTF-8</code> <em>URL encoded</em> <a href="#predicate">Predicate</a>.</p>
+</dd><dt>sort</dt><dd><code>string</code>&nbsp;<span>(optional)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>sort=name+desc</span></span><p>A valid <a href="#sort">Sort</a> expression, default value is <code>ASC</code>.</p>
+</dd><dt>limit</dt><dd><code>number</code>&nbsp;<span>(optional)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>limit=1</span></span><p>The maximum number of results to return, default limit is <code>100</code>. A limit of <code>0</code> returns all results.</p>
+</dd></dl></li></ul><ul class="list-group"><li class="list-group-item"><strong>Request</strong><a data-toggle="collapse" data-target="#916175" class="pull-right">Toggle</a></li><li id="916175" class="list-group-item collapse"><h5>Headers</h5><pre><code><span class="attribute">Authorization</span>: <span class="string">Bearer &lt;ACCESS_TOKEN&gt;</span><br></code></pre></li><li class="list-group-item"><strong>Response&nbsp;&nbsp;<code>200</code></strong><a data-toggle="collapse" data-target="#136596" class="pull-right">Toggle</a></li><li id="136596" class="list-group-item collapse"><h5>Headers</h5><pre><code><span class="attribute">Content-Type</span>: <span class="string">application/json</span><br></code></pre><h5>Body</h5><pre><code>{
+    "<span class="attribute">count</span>": <span class="value"><span class="number">1</span></span>,
+    "<span class="attribute">offset</span>": <span class="value"><span class="number">0</span></span>,
+    "<span class="attribute">total</span>": <span class="value"><span class="number">1</span></span>,
+    "<span class="attribute">results</span>": <span class="value">[
+        {
+            "<span class="attribute">id</span>": <span class="value"><span class="string">"some_123_id"</span></span>,
+            "<span class="attribute">version</span>": <span class="value"><span class="number">1</span></span>,
+            "<span class="attribute">name</span>": <span class="value">{
+                "<span class="attribute">en</span>": <span class="value"><span class="string">"myCategory"</span>
+            </span>}</span>,
+            "<span class="attribute">slug</span>": <span class="value">{
+                "<span class="attribute">en</span>": <span class="value"><span class="string">"my-cat-&lt;random&gt;"</span>
+            </span>}</span>,
+            "<span class="attribute">orderHint</span>": <span class="value"><span class="string">"0.275"</span></span>,
+            "<span class="attribute">ancestors</span>": <span class="value">[]
+        </span>}
+    ]
+</span>}
+</code></pre></li></ul></section></div></div></div></div></div></div><p style="text-align: center;" class="text-muted">Generated by <a href="https://github.com/danielgtaylor/aglio" class="aglio">aglio</a> on 19 Jan 2014</p><div id="localFile" style="display: none; position: absolute; top: 0; left: 0; width: 100%; color: white; background: red; font-size: 150%; text-align: center; padding: 1em;">This page may not display correctly when opened as a local file. Instead, view it from a web server.
+
+</div></body><script src="//code.jquery.com/jquery-1.10.1.min.js"></script><script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script><script type="text/javascript">
+(function() {
+  if (location.protocol === 'file:') {
+    document.getElementById('localFile').style.display = 'block';
+  }
+
+}).call(this);
+</script><script type="text/javascript">
+(function() {
+  $('table').addClass('table');
+
+}).call(this);
+</script></html>
